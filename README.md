@@ -22,7 +22,7 @@ Workshop 1 (150 lines)     → Single agent with self-correction
 Workshop 2 (450 lines)     → + Research agent for data enrichment
 Workshop 3 (900 lines)     → Multi-agent orchestration system
 Workshop 4 (1,200 lines)   → Evaluation framework & A/B testing
-Workshop 5 (2,500+ lines)  → Production deployment (Docker, API, UI)
+Workshop 5 (2,500+ lines)  → Multi-modal capabilities (voice, code, UI)
 ```
 
 ## Repository Structure
@@ -30,6 +30,7 @@ Workshop 5 (2,500+ lines)  → Production deployment (Docker, API, UI)
 ```
 edu-ai-product-engineer-s3/
 ├── README.md                    (You are here)
+├── CONTRIBUTIONS.md             (Homework submission guidelines)
 ├── LICENSE
 ├── lesson1/                     (Chained vs Agentic Workflows)
 │   ├── README.md               (Lesson overview)
@@ -94,38 +95,38 @@ Follow the detailed setup instructions in [lesson1/SETUP_GUIDE.md](lesson1/SETUP
 
 ## Homework Submission Process
 
-All homework is submitted via **Pull Requests** to your fork:
+All homework is submitted via **Pull Requests** to your fork. This mirrors real-world software development workflows and builds your GitHub portfolio.
 
-### Step 1: Create a Feature Branch
+### Quick Overview
+
 ```bash
+# 1. Create homework branch
 git checkout -b lesson1-homework
-```
 
-### Step 2: Complete Your Homework
-Build your implementation in the appropriate lesson directory.
+# 2. Complete your work
+# ... build your implementation ...
 
-### Step 3: Commit Your Work
-```bash
+# 3. Commit and push
 git add .
-git commit -m "Lesson 1 Homework: [Brief description]"
-```
-
-### Step 4: Push to Your Fork
-```bash
+git commit -m "Lesson 1 Homework: [description]"
 git push origin lesson1-homework
+
+# 4. Create PR on GitHub (to your own fork!)
+# 5. Share PR link in course chat for review
 ```
 
-### Step 5: Create Pull Request
-1. Go to your fork on GitHub
-2. Click "Pull requests" → "New pull request"
-3. Set base: `main` (your fork) ← compare: `lesson1-homework`
-4. Add description with:
-   - What you built
-   - Challenges you faced
-   - Questions for review
+### Detailed Guidelines
 
-### Step 6: Share for Review
-Post your PR link in the course chat for instructor and peer review.
+For complete submission guidelines, code quality standards, and best practices, see:
+
+**📖 [CONTRIBUTIONS.md](CONTRIBUTIONS.md)** - Your complete guide to:
+- Initial setup (fork, clone, upstream)
+- Homework workflow (branch → code → commit → PR)
+- Code quality standards
+- Getting feedback and peer review
+- Common pitfalls to avoid
+- Bonus challenges
+- Portfolio tips
 
 ## Course Schedule
 
@@ -135,7 +136,7 @@ Post your PR link in the course chat for instructor and peer review.
 | **2** | LLM-Powered Product Management | 2 hours | 4-5 hours |
 | **3** | Multi-Agent Systems | 2 hours | 6-8 hours |
 | **4** | Eval-Driven Development | 2 hours | 5-6 hours |
-| **5** | Production Deployment | 2 hours | 8-10 hours |
+| **5** | Multi-Modal Capabilities | 2 hours | 8-10 hours |
 
 **Total**: 10 hours workshops + 26-33 hours homework = **36-43 hours**
 
@@ -148,10 +149,10 @@ By the end of this course, you will be able to:
 - ✅ Build custom tools with MCP (Model Context Protocol)
 - ✅ Orchestrate multi-agent systems
 - ✅ Design evaluation frameworks for LLM outputs
-- ✅ Deploy AI products to production with Docker
-- ✅ Build REST APIs with FastAPI
-- ✅ Implement async task queues (Celery + Redis)
-- ✅ Create monitoring dashboards
+- ✅ Build multi-modal agents (voice, code generation, UI)
+- ✅ Integrate voice interfaces with AI agents
+- ✅ Create agents that write and execute code
+- ✅ Design conversational UI for agentic systems
 
 ### Product Skills
 - ✅ Make chained vs agentic architecture decisions
