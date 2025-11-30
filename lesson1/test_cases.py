@@ -56,3 +56,8 @@ DEMO_PAIR_ALT2 = [
     ("Clean", "https://www.linkedin.com/in/jenhsunhuang/"),
     ("Messy - Typo (Unfixable)", "linkedin.com/in/jenhsun-huang"),  # Shows reasoning when unfixable
 ]
+
+DEMO_PAIR_ALT3 = [
+    ("Clean", "https://www.linkedin.com/in/gaiar/"),
+    ("Non-existent profile", "linkedin.com/in/gaiar-baimuratov"),  # Shows reasoning when unfixable
+]

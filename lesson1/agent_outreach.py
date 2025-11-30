@@ -49,49 +49,70 @@ enrichlayer_api_key = os.getenv("ENRICHLAYER_API_KEY")
 # CUSTOM MCP TOOL: LinkedIn Profile Fetcher
 # ============================================================================
 
+
 @tool(
     "fetch_linkedin_profile",
     "Fetch LinkedIn profile data from EnrichLayer API. Returns profile information or error message.",
-    {"profile_url": str}
+    {"profile_url": str},
 )
 async def fetch_linkedin_profile(args: dict[str, Any]) -> dict[str, Any]:
     """
     Custom tool for fetching LinkedIn profiles via EnrichLayer API.
 
     This runs as an in-process MCP tool - no separate process needed!
+
+    NOTE: Currently simulating failure behavior for testing agent self-correction.
     """
     profile_url = args["profile_url"]
 
     print(f"  [Tool] Fetching profile: {profile_url}")
+    # print(f"  [Tool] ⚠️  SIMULATING API FAILURE (for testing)")
 
+    # Simulate API failure - always return error
+    # This mimics a 404 or invalid URL response
+    # error_msg = f"API returned 404: Profile not found for URL: {profile_url}"
+    # print(f"  [Tool] ❌ Failed: {error_msg}")
+
+    # return {
+    #     "content": [{
+    #         "type": "text",
+    #         "text": f"Error fetching profile: {error_msg}"
+    #     }],
+    #     "is_error": True
+    # }
+
+    # Original implementation (commented out for testing):
     try:
         response = requests.get(
             "https://enrichlayer.com/api/v2/profile",
             params={"profile_url": profile_url},
             headers={"Authorization": f"Bearer {enrichlayer_api_key}"},
-            timeout=10
+            timeout=10,
         )
 
         if response.status_code == 200:
             data = response.json()
-            print(f"  [Tool] ✅ Success! Found profile for {data.get('first_name', 'Unknown')}")
+            print(
+                f"  [Tool] ✅ Success! Found profile for {data.get('first_name', 'Unknown')}"
+            )
 
             return {
-                "content": [{
-                    "type": "text",
-                    "text": f"Successfully fetched LinkedIn profile:\n{response.text[:500]}"
-                }]
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"Successfully fetched LinkedIn profile:\n{response.text[:500]}",
+                    }
+                ]
             }
         else:
             error_msg = f"API returned {response.status_code}: {response.text[:200]}"
             print(f"  [Tool] ❌ Failed: {error_msg}")
 
             return {
-                "content": [{
-                    "type": "text",
-                    "text": f"Error fetching profile: {error_msg}"
-                }],
-                "is_error": True
+                "content": [
+                    {"type": "text", "text": f"Error fetching profile: {error_msg}"}
+                ],
+                "is_error": True,
             }
 
     except Exception as e:
@@ -99,17 +120,15 @@ async def fetch_linkedin_profile(args: dict[str, Any]) -> dict[str, Any]:
         print(f"  [Tool] ❌ Exception: {error_msg}")
 
         return {
-            "content": [{
-                "type": "text",
-                "text": f"Error: {error_msg}"
-            }],
-            "is_error": True
+            "content": [{"type": "text", "text": f"Error: {error_msg}"}],
+            "is_error": True,
         }
 
 
 # ============================================================================
 # MESSAGE DISPLAY HELPER
 # ============================================================================
+
 
 def display_message(msg):
     """Display agent messages in a clean, readable format."""
@@ -138,6 +157,7 @@ def display_message(msg):
 # AGENTIC WORKFLOW
 # ============================================================================
 
+
 async def agentic_workflow(linkedin_url: str) -> dict:
     """
     Main agentic workflow function.
@@ -148,26 +168,22 @@ async def agentic_workflow(linkedin_url: str) -> dict:
     3. Self-correct and retry
     4. Generate personalized message
     """
-    print(f"\n{'='*60}")
-    print(f"AGENTIC WORKFLOW")
+    print(f"\n{'=' * 60}")
+    print("AGENTIC WORKFLOW")
     print(f"URL: {linkedin_url}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     # Create the LinkedIn profile fetcher MCP server
     linkedin_server = create_sdk_mcp_server(
-        name="linkedin",
-        version="1.0.0",
-        tools=[fetch_linkedin_profile]
+        name="linkedin", version="1.0.0", tools=[fetch_linkedin_profile]
     )
 
     # Configure the agent
     options = ClaudeAgentOptions(
         # Register our custom MCP server
         mcp_servers={"linkedin": linkedin_server},
-
         # Allow the agent to use our custom tool
         allowed_tools=["mcp__linkedin__fetch_linkedin_profile"],
-
         # System prompt: Define the agent's goal and capabilities
         system_prompt="""You are an AI sales assistant specializing in LinkedIn cold outreach.
 
@@ -228,7 +244,6 @@ Instructions:
 Context: You're the founder of a B2B SaaS offering AI sales automation that automates 70% of work.
 Target: CEOs/Founders/Sales Leaders in $1M+ revenue companies.
 """,
-
         # Limit turns to keep demo fast
         max_turns=10,
     )
@@ -260,39 +275,32 @@ Remember to:
                         if isinstance(block, TextBlock):
                             final_response = block.text
 
-            print(f"\n{'-'*60}")
-            print(f"GENERATED MESSAGE:")
-            print(f"{'-'*60}")
+            print(f"\n{'-' * 60}")
+            print("GENERATED MESSAGE:")
+            print(f"{'-' * 60}")
             print(final_response)
-            print(f"{'-'*60}\n")
+            print(f"{'-' * 60}\n")
 
-            return {
-                "success": True,
-                "message": final_response,
-                "url": linkedin_url
-            }
+            return {"success": True, "message": final_response, "url": linkedin_url}
 
     except Exception as e:
         print(f"\n❌ FAILED: {str(e)}\n")
-        return {
-            "success": False,
-            "error": str(e),
-            "url": linkedin_url
-        }
+        return {"success": False, "error": str(e), "url": linkedin_url}
 
 
 # ============================================================================
 # MAIN EXECUTION
 # ============================================================================
 
+
 async def main():
     """Run the agentic workflow with test cases."""
-    from test_cases import DEMO_PAIR
+    from test_cases import DEMO_PAIR_ALT3
 
-    for label, url in DEMO_PAIR:
-        print(f"\n{'#'*60}")
+    for label, url in DEMO_PAIR_ALT3:
+        print(f"\n{'#' * 60}")
         print(f"# TEST: {label}")
-        print(f"{'#'*60}")
+        print(f"{'#' * 60}")
         result = await agentic_workflow(url)
 
         # Brief pause between tests
