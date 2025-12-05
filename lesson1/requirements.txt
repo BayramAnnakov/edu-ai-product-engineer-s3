@@ -3,6 +3,8 @@ anthropic>=0.40.0
 claude-agent-sdk>=0.1.9  # Latest version as of Nov 2025
 requests>=2.31.0
 python-dotenv>=1.0.0
+firecrawl-py>=4.10.1  # Added for homepage scraper
+beautifulsoup4>=4.12.0 # Required for parsing HTML in scraper
 
 # For testing and comparison
 colorama>=0.4.6

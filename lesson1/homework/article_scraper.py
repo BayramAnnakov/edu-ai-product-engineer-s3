@@ -15,6 +15,7 @@ import logging
 import re
 from dataclasses import dataclass
 from typing import Any
+from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 
@@ -24,10 +25,11 @@ from claude_agent_sdk import (
     ClaudeSDKClient,
     ResultMessage,
     TextBlock,
-    ToolUseBlock,
-    UserMessage,
 )
+
 from config import HOMEPAGES
+from mcp_tools import create_report_saver_server
+from utils import display_message
 
 load_dotenv()
 
@@ -293,6 +295,11 @@ You have Playwright browser tools:
 - Fill form fields
 - Get page HTML content
 
+You also have a `save_report` tool:
+- Use `save_report` to save your final editorial audit report when complete.
+- Automatically extract the publisher name from the homepage URL (e.g., "tagesspiegel" from "https://www.tagesspiegel.de").
+- The tool will save the report with a date-based filename.
+
 [INITIAL STEPS]
 
 1. **Navigate to the home page URL** provided by the user
@@ -321,6 +328,12 @@ You have Playwright browser tools:
 
 After completing your audit, produce your final markdown report. The report should be comprehensive and follow the structure outlined in [REPORT FORMAT].
 
+6. **Save the Report**:
+   - After generating the complete audit report, use the `save_report` tool to save it.
+   - Extract the publisher name from the URL (e.g., "tagesspiegel" from "tagesspiegel.de").
+   - Pass the full markdown report content and the publisher name.
+   - The report will be automatically saved with a date-based filename.
+
 ## Status Values (for technical tracking)
 - `ok` - Successfully completed audit
 - `login_failed` - Could not authenticate
@@ -343,25 +356,23 @@ After completing your audit, produce your final markdown report. The report shou
 # ============================================================================
 
 
-def display_message(msg):
-    """Display agent messages in a clean, readable format."""
-    if isinstance(msg, UserMessage):
-        for block in msg.content:
-            if isinstance(block, TextBlock):
-                print(f"\n👤 User: {block.text}")
+def extract_publisher_from_url(url: str) -> str:
+    """
+    Extract publisher name from URL for use in report filename.
 
-    elif isinstance(msg, AssistantMessage):
-        for block in msg.content:
-            if isinstance(block, TextBlock):
-                print(f"\n🤖 Agent: {block.text}")
-            elif isinstance(block, ToolUseBlock):
-                print(f"\n🔧 Agent using tool: {block.name}")
-                if block.input:
-                    print(f"   Input: {block.input}")
+    Args:
+        url: Homepage URL.
 
-    elif isinstance(msg, ResultMessage):
-        if msg.total_cost_usd:
-            print(f"\n💰 Total Cost: ${msg.total_cost_usd:.6f}")
+    Returns:
+        Publisher slug (e.g., 'tagesspiegel' from 'tagesspiegel.de').
+    """
+    parsed = urlparse(url)
+    domain = parsed.netloc or parsed.path
+    # Remove www. prefix
+    domain = domain.replace("www.", "")
+    # Extract first part of domain (e.g., 'tagesspiegel' from 'tagesspiegel.de')
+    publisher = domain.split(".")[0]
+    return publisher.lower()
 
 
 # ============================================================================
@@ -418,14 +429,32 @@ async def analyze_homepage(
     """
     )
 
-    # Configure Playwright MCP server
+    # Create MCP server with report saving tool
+    report_server = create_report_saver_server()
+
+    # Configure MCP servers
     mcp_servers: dict[str, Any] = {
-        "playwright": {"command": "npx", "args": ["@playwright/mcp@latest"]}
+        "playwright": {"command": "npx", "args": ["@playwright/mcp@latest"]},
+        "report-saver": report_server,
     }
+
+    # Extract publisher name from URL for the agent
+    publisher = extract_publisher_from_url(homepage_url)
+    
+    # Add publisher info to system prompt
+    system_prompt_with_publisher = (
+        system_prompt
+        + f"""
+
+## Publisher Information
+- Publisher name for saving reports: {publisher}
+- When using save_report tool, use "{publisher}" as the publisher parameter.
+"""
+    )
 
     options = ClaudeAgentOptions(
         mcp_servers=mcp_servers,
-        system_prompt=system_prompt,
+        system_prompt=system_prompt_with_publisher,
         max_turns=max_turns,
         permission_mode="bypassPermissions"
     )
