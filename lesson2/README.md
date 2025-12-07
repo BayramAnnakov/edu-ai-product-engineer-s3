@@ -7,6 +7,7 @@ This lesson evolves from Workshop 1's agentic workflow to demonstrate:
 1. **Improved Tool Docstrings** - Docstrings as user manuals for Claude
 2. **External Feedback** - Breaking the prompt engineering plateau
 3. **Reflection Pattern** - V1 -> Feedback -> V2 structured improvement
+4. **Structured Outputs** - Get validated JSON instead of free-text responses
 
 ## Key Concept: The Reflection Pattern
 
@@ -139,6 +140,72 @@ The pattern transforms generic V1 output into specific, actionable V2 research b
 - Applying quality criteria checklist
 - Marking assumptions clearly
 - Incorporating human-provided context
+
+## Structured Outputs
+
+Structured outputs allow you to get validated JSON instead of free-text responses. This is essential when you need to:
+- Save research to a database or CRM
+- Pass results to another agent or system
+- Ensure consistent, parseable output format
+
+### JSON Schema Definition
+
+In `research_agent_v2.py`, we define a schema for research output:
+
+```python
+RESEARCH_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "prospect_name": {"type": "string"},
+        "company": {"type": "string"},
+        "role": {"type": "string"},
+        "pain_points": {
+            "type": "array",
+            "items": {"type": "string"}
+        },
+        "talking_points": {
+            "type": "array",
+            "items": {"type": "string"}
+        },
+        "confidence": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+        }
+    },
+    "required": ["prospect_name", "pain_points", "talking_points"]
+}
+```
+
+### Enabling Structured Outputs
+
+To enable structured outputs, add `output_format` to your `ClaudeAgentOptions`:
+
+```python
+options = ClaudeAgentOptions(
+    mcp_servers={"research": research_server},
+    allowed_tools=[...],
+    system_prompt=SYSTEM_PROMPT,
+    max_turns=15,
+    output_format={
+        "type": "json_schema",
+        "schema": RESEARCH_SCHEMA
+    }
+)
+```
+
+### When to Use Structured Outputs
+
+| Use Case | Structured Output? |
+|----------|-------------------|
+| Quick research for human review | No - free text is easier to read |
+| Saving to database/CRM | Yes - consistent format required |
+| Passing to another agent | Yes - reliable parsing |
+| Generating reports | Maybe - depends on downstream needs |
+| Integration with external APIs | Yes - ensures compatibility |
+
+### Try It Out
+
+Uncomment the `output_format` option in `research_agent_v2.py` (lines 254-258) to see structured outputs in action. The agent will return JSON that matches the schema instead of free-form text.
 
 ## V1 vs V2 Comparison
 
