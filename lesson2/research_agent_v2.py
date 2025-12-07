@@ -255,6 +255,9 @@ async def research_with_reflection(linkedin_url: str) -> dict:
         tools=[fetch_linkedin_profile, request_human_review]
     )
 
+    # Get the lesson2 directory path for skill discovery
+    lesson2_dir = os.path.dirname(os.path.abspath(__file__))
+
     options = ClaudeAgentOptions(
         mcp_servers={"research": research_server},
         allowed_tools=[
@@ -265,10 +268,16 @@ async def research_with_reflection(linkedin_url: str) -> dict:
             "Read",
             "Write",
             "Edit",
+            "Bash",
             # Standard SDK tools for task management
             "TodoRead",
             "TodoWrite",
+            # Skills - enables PDF report generation and other skills
+            "Skill",
         ],
+        # Enable skill discovery from project .claude/skills/ directory
+        setting_sources=["project"],
+        cwd=lesson2_dir,
         system_prompt=SYSTEM_PROMPT,
         max_turns=15,
         # output_format={

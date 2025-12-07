@@ -17,6 +17,11 @@ __pycache__/
 
 # IDE and editor files
 .claude/
+# But include .claude/skills/ for custom skills (PDF, etc.)
+!.claude/skills/
+!.claude/skills/**
+!*/.claude/skills/
+!*/.claude/skills/**
 .vscode/
 .idea/
 *.swp
