@@ -246,8 +246,16 @@ async def research_with_reflection(linkedin_url: str) -> dict:
     options = ClaudeAgentOptions(
         mcp_servers={"research": research_server},
         allowed_tools=[
+            # Custom MCP tools
             "mcp__research__fetch_linkedin_profile",
-            "mcp__research__request_human_review"
+            "mcp__research__request_human_review",
+            # Standard SDK tools for file operations
+            "Read",
+            "Write",
+            "Edit",
+            # Standard SDK tools for task management
+            "TodoRead",
+            "TodoWrite",
         ],
         system_prompt=SYSTEM_PROMPT,
         max_turns=15,
