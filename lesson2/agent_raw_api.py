@@ -1,18 +1,22 @@
 """
-AGENT WITHOUT SDK: Direct Anthropic API Implementation
+ReAct AGENT: Reasoning + Acting Pattern Implementation
 
 This file demonstrates building an agent using the RAW Anthropic API
-instead of the Claude Agent SDK. This shows students exactly what
-happens "under the hood":
+with the ReAct (Reasoning + Acting) pattern. ReAct interleaves:
 
-1. How conversation history accumulates
-2. How tool definitions are sent with each request
-3. How the agentic loop works (LLM -> tool -> LLM -> tool -> ...)
-4. Why token counts grow so quickly
-5. The exact JSON being sent to/from the API
+    Thought → Action → Observation → Thought → ...
 
-Key Insight: This is what the SDK abstracts away. Understanding this
-helps you debug agents and optimize costs.
+Key ReAct Benefits:
+1. Explicit reasoning traces before each action
+2. Better interpretability - see WHY the agent acts
+3. Improved decision-making through structured thinking
+4. Easier debugging - follow the reasoning chain
+
+What this demonstrates:
+1. How to prompt for ReAct-style reasoning
+2. How to parse Thought/Action/Observation components
+3. The agentic loop with explicit reasoning traces
+4. Why token counts grow (reasoning adds tokens but improves quality)
 
 Observability:
     This file uses Laminar's automatic instrumentation to trace all
@@ -82,14 +86,127 @@ SYSTEM_PROMPT = """You are an AI sales assistant specializing in LinkedIn resear
 
 Your goal: Research a prospect and provide a brief summary.
 
-Available tools:
+## ReAct Pattern
+You MUST follow the ReAct (Reasoning + Acting) pattern. Before EVERY action, explicitly state your reasoning.
+
+Format your responses as:
+
+Thought: [Your reasoning about what you need to do and why]
+Action: [Then call the appropriate tool]
+
+After receiving an observation (tool result), continue with another Thought before your next action or final answer.
+
+When you have enough information to answer, format as:
+
+Thought: [Your reasoning about the information gathered]
+Final Answer: [Your complete response to the user]
+
+## Available Tools
 - fetch_linkedin_profile: Fetches profile data from LinkedIn URLs
 
-Instructions:
-1. Use fetch_linkedin_profile to get the profile data
-2. Provide a brief summary of the person (name, role, company)
-3. Keep your response concise
+## Example
+User: Research this LinkedIn profile...
+
+Thought: I need to fetch the LinkedIn profile data first to learn about this person's background and current role.
+Action: [call fetch_linkedin_profile tool]
+
+[After receiving observation]
+
+Thought: Now I have the profile data. I can see this person is [name] working as [role] at [company]. I should summarize the key points.
+Final Answer: [Summary of the person]
+
+Remember: ALWAYS start with "Thought:" before any action or response.
 """
+
+# ============================================================================
+# REACT PARSING HELPERS
+# ============================================================================
+
+def parse_react_components(text: str) -> dict:
+    """
+    Parse ReAct components from LLM output.
+
+    Extracts:
+    - Thought: The reasoning trace
+    - Final Answer: The concluding response (if present)
+
+    This parsing helps visualize the ReAct pattern in action.
+    """
+    components = {
+        "thoughts": [],
+        "final_answer": None,
+        "raw_text": text
+    }
+
+    lines = text.split('\n')
+    current_component = None
+    current_content = []
+
+    for line in lines:
+        if line.startswith("Thought:"):
+            # Save previous component
+            if current_component == "thought" and current_content:
+                components["thoughts"].append(' '.join(current_content).strip())
+            current_component = "thought"
+            current_content = [line[8:].strip()]  # After "Thought:"
+        elif line.startswith("Final Answer:"):
+            # Save previous thought
+            if current_component == "thought" and current_content:
+                components["thoughts"].append(' '.join(current_content).strip())
+            current_component = "final_answer"
+            current_content = [line[13:].strip()]  # After "Final Answer:"
+        elif current_component:
+            # Continue building current component
+            current_content.append(line.strip())
+
+    # Save last component
+    if current_component == "thought" and current_content:
+        components["thoughts"].append(' '.join(current_content).strip())
+    elif current_component == "final_answer" and current_content:
+        components["final_answer"] = ' '.join(current_content).strip()
+
+    return components
+
+
+def display_react_trace(text: str, turn: int) -> dict:
+    """
+    Display ReAct components in a formatted way.
+
+    Returns the parsed components for metrics tracking.
+    """
+    components = parse_react_components(text)
+
+    # Display thoughts (reasoning traces)
+    for i, thought in enumerate(components["thoughts"], 1):
+        print(f"\n  💭 THOUGHT {turn}.{i}:")
+        # Word wrap for readability
+        words = thought.split()
+        line = "     "
+        for word in words:
+            if len(line) + len(word) > 70:
+                print(line)
+                line = "     " + word
+            else:
+                line += " " + word if line.strip() else word
+        if line.strip():
+            print(line)
+
+    # Display final answer if present
+    if components["final_answer"]:
+        print(f"\n  ✅ FINAL ANSWER:")
+        words = components["final_answer"].split()
+        line = "     "
+        for word in words:
+            if len(line) + len(word) > 70:
+                print(line)
+                line = "     " + word
+            else:
+                line += " " + word if line.strip() else word
+        if line.strip():
+            print(line)
+
+    return components
+
 
 # ============================================================================
 # TOOL EXECUTION (we handle this ourselves)
@@ -101,10 +218,12 @@ def execute_tool(tool_name: str, tool_input: dict) -> str:
 
     In the SDK, this is handled automatically. Here we do it manually
     so students can see exactly what's happening.
+
+    In ReAct terms, this is the ACTION being executed and the result
+    becomes the OBSERVATION.
     """
-    print(f"\n  [TOOL EXECUTION]")
-    print(f"  Tool: {tool_name}")
-    print(f"  Input: {json.dumps(tool_input, indent=2)}")
+    print(f"\n  🎯 ACTION: {tool_name}")
+    print(f"     Input: {json.dumps(tool_input)}")
 
     if tool_name == "fetch_linkedin_profile":
         profile_url = tool_input.get("profile_url", "")
@@ -119,19 +238,20 @@ def execute_tool(tool_name: str, tool_input: dict) -> str:
 
             if response.status_code == 200:
                 data = response.json()
-                result = f"Profile found: {data.get('first_name', 'Unknown')} {data.get('last_name', '')}"
-                result += f"\nTitle: {data.get('occupation', 'Unknown')}"
-                result += f"\nCompany: {data.get('company', 'Unknown')}"
-                print(f"  Result: SUCCESS - {data.get('first_name', 'Unknown')}")
-                return json.dumps(data)
+                result = json.dumps(data)
+                print(f"\n  👁️ OBSERVATION: Profile fetched successfully")
+                print(f"     Name: {data.get('first_name', 'Unknown')} {data.get('last_name', '')}")
+                print(f"     Title: {data.get('occupation', 'Unknown')}")
+                print(f"     Company: {data.get('company', 'Unknown')}")
+                return result
             else:
                 error = f"API error {response.status_code}: {response.text[:200]}"
-                print(f"  Result: ERROR - {error}")
+                print(f"\n  👁️ OBSERVATION: ERROR - {error}")
                 return error
 
         except Exception as e:
             error = f"Exception: {str(e)}"
-            print(f"  Result: ERROR - {error}")
+            print(f"\n  👁️ OBSERVATION: ERROR - {error}")
             return error
 
     return f"Unknown tool: {tool_name}"
@@ -161,17 +281,20 @@ def run_agent(user_prompt: str, debug: bool = True) -> dict:
         {"role": "user", "content": user_prompt}
     ]
 
-    # Metrics tracking
+    # Metrics tracking (including ReAct-specific metrics)
     metrics = {
         "turns": 0,
         "total_input_tokens": 0,
         "total_output_tokens": 0,
         "tool_calls": [],
-        "api_calls": []
+        "api_calls": [],
+        "thoughts": [],  # Track reasoning traces
+        "pattern": "ReAct"
     }
 
     print(f"\n{'='*70}")
-    print("RAW API AGENT - SEE WHAT HAPPENS UNDER THE HOOD")
+    print("ReAct AGENT - REASONING + ACTING PATTERN")
+    print("Thought → Action → Observation → Thought → ...")
     print(f"{'='*70}")
 
     if debug:
@@ -238,9 +361,10 @@ def run_agent(user_prompt: str, debug: bool = True) -> dict:
                 text_response = block.text
                 assistant_content.append({"type": "text", "text": block.text})
                 if debug:
-                    print(f"\n[LLM TEXT OUTPUT]")
-                    preview = block.text[:300] + "..." if len(block.text) > 300 else block.text
-                    print(f"  {preview}")
+                    # Parse and display ReAct components (Thought, Final Answer)
+                    react_components = display_react_trace(block.text, turn + 1)
+                    # Track thoughts in metrics
+                    metrics["thoughts"].extend(react_components.get("thoughts", []))
 
             elif block.type == "tool_use":
                 tool_use_blocks.append(block)
@@ -292,19 +416,26 @@ def run_agent(user_prompt: str, debug: bool = True) -> dict:
 
     # Final summary
     print(f"\n{'='*70}")
-    print("AGENT METRICS SUMMARY")
+    print("ReAct AGENT METRICS SUMMARY")
     print(f"{'='*70}")
+    print(f"  Pattern: ReAct (Reasoning + Acting)")
     print(f"  Total turns: {metrics['turns']}")
+    print(f"  Reasoning traces (thoughts): {len(metrics['thoughts'])}")
+    print(f"  Actions (tool calls): {len(metrics['tool_calls'])}")
     print(f"  Total input tokens: {metrics['total_input_tokens']:,}")
     print(f"  Total output tokens: {metrics['total_output_tokens']:,}")
     print(f"  Total tokens: {metrics['total_input_tokens'] + metrics['total_output_tokens']:,}")
-    print(f"  Tool calls: {len(metrics['tool_calls'])}")
 
     # Cost estimate (Claude Sonnet pricing)
     input_cost = metrics['total_input_tokens'] * 0.003 / 1000
     output_cost = metrics['total_output_tokens'] * 0.015 / 1000
     total_cost = input_cost + output_cost
     print(f"  Estimated cost: ${total_cost:.6f}")
+
+    print(f"\n[ReAct TRACE SUMMARY]")
+    for i, thought in enumerate(metrics["thoughts"], 1):
+        preview = thought[:80] + "..." if len(thought) > 80 else thought
+        print(f"  Thought {i}: {preview}")
 
     print(f"\n[TOKEN BREAKDOWN BY TURN]")
     for call in metrics["api_calls"]:
@@ -331,8 +462,9 @@ LinkedIn URL: {linkedin_url}
 Fetch the profile and tell me about this person."""
 
     print("\n" + "#"*70)
-    print("# RAW ANTHROPIC API AGENT")
-    print("# No SDK - See exactly what happens under the hood")
+    print("# ReAct AGENT (RAW ANTHROPIC API)")
+    print("# Reasoning + Acting Pattern Implementation")
+    print("# See explicit Thought → Action → Observation traces")
     print("#"*70)
 
     metrics = run_agent(prompt, debug=True)
