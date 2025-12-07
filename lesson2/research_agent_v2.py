@@ -60,6 +60,7 @@ from claude_agent_sdk import (
     ResultMessage,
     TextBlock,
     ToolUseBlock,
+    ToolResultBlock,
 )
 
 # Import our custom tools
@@ -152,6 +153,17 @@ def display_message(msg, tracker=None):
                     if tracker:
                         tool_name = block.name.split("__")[-1]  # Get just the tool name
                         tracker.log_tool_call(tool_name, block.input)
+
+            elif isinstance(block, ToolResultBlock):
+                # Tool execution result
+                status = "Error" if block.is_error else "Success"
+                print(f"\n   Tool result: {status}")
+                if block.content:
+                    # Show result preview
+                    result_str = str(block.content)
+                    if len(result_str) > 200:
+                        result_str = result_str[:200] + "..."
+                    print(f"   Output: {result_str}")
 
     elif isinstance(msg, ResultMessage):
         if msg.total_cost_usd:
@@ -246,8 +258,16 @@ async def research_with_reflection(linkedin_url: str) -> dict:
     options = ClaudeAgentOptions(
         mcp_servers={"research": research_server},
         allowed_tools=[
+            # Custom MCP tools
             "mcp__research__fetch_linkedin_profile",
-            "mcp__research__request_human_review"
+            "mcp__research__request_human_review",
+            # Standard SDK tools for file operations
+            "Read",
+            "Write",
+            "Edit",
+            # Standard SDK tools for task management
+            "TodoRead",
+            "TodoWrite",
         ],
         system_prompt=SYSTEM_PROMPT,
         max_turns=15,
