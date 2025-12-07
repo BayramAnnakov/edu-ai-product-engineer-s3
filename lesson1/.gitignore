@@ -5,6 +5,9 @@ __pycache__/
 *.pyo
 .DS_Store
 
+# Snapshots directory (generated data)
+homework/snapshots/
+
 # Instructor materials (deck and teaching notes)
 *.pdf
 workshop.md
