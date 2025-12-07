@@ -18,31 +18,12 @@ This course teaches you how to build AI products through 5 progressive workshops
 ### Learning Path
 
 ```
-Workshop 1 (150 lines)     → Single agent with self-correction
-Workshop 2 (450 lines)     → + Research agent for data enrichment
+Workshop 1 (150 lines)     → Chained vs Agentic Workflows
+Workshop 2 (450 lines)     → Tool Mastery & Reflection Pattern
 Workshop 3 (900 lines)     → Multi-agent orchestration system
 Workshop 4 (1,200 lines)   → Evaluation framework & A/B testing
 Workshop 5 (2,500+ lines)  → Multi-modal capabilities (voice, code, UI)
 ```
-
-### Workshop 2: Reflection Pattern & Observability
-
-Workshop 2 teaches you how to break the "prompt engineering plateau" using external feedback:
-
-**Key Concepts:**
-- **Reflection Pattern** - Three-turn flow: V1 research → human feedback → V2 improvement
-- **External Feedback** - Human-in-the-loop validation as a tool
-- **Observability** - Laminar integration to see what happens inside agents
-- **Raw API vs SDK** - Understanding token costs and what the SDK abstracts away
-
-**Scripts:**
-| File | Purpose |
-|------|---------|
-| `research_agent_v2.py` | Main demo: Reflection pattern with structured output |
-| `agent_raw_api.py` | Educational: Raw Anthropic API without SDK |
-| `agent_with_laminar.py` | SDK with full observability enabled |
-| `compare_approaches.py` | Side-by-side comparison of approaches |
-| `tools/human_feedback.py` | Human-in-the-loop tool implementation |
 
 ## Repository Structure
 
@@ -61,7 +42,7 @@ edu-ai-product-engineer-s3/
 │   ├── verify_setup.py         (Setup verification script)
 │   ├── n8n.json                (No-code demo workflow)
 │   └── requirements.txt
-├── lesson2/                     (Reflection Pattern & Observability)
+├── lesson2/                     (Tool Mastery & Reflection Pattern)
 │   ├── README.md               (Lesson overview)
 │   ├── research_agent_v2.py    (Main demo: Reflection pattern)
 │   ├── agent_raw_api.py        (Raw API implementation)
@@ -166,7 +147,7 @@ For complete submission guidelines, code quality standards, and best practices, 
 | Workshop | Topic | Duration | Homework |
 |----------|-------|----------|----------|
 | **1** | Chained vs Agentic Workflows | 2 hours | 3-4 hours |
-| **2** | LLM-Powered Product Management | 2 hours | 4-5 hours |
+| **2** | Tool Mastery & Reflection Pattern | 2 hours | 4-5 hours |
 | **3** | Multi-Agent Systems | 2 hours | 6-8 hours |
 | **4** | Eval-Driven Development | 2 hours | 5-6 hours |
 | **5** | Multi-Modal Capabilities | 2 hours | 8-10 hours |
