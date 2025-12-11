@@ -342,3 +342,23 @@ If observability doesn't initialize:
 1. Check that `LAMINAR_API_KEY` is set in `.env`
 2. Ensure you installed the observability dependencies: `pip install 'lmnr[claude-agent-sdk]'`
 3. The agent works without Laminar - it's optional
+
+---
+
+## Further Reading
+
+### Case Study: Poetiq ARC-AGI-2 SOTA
+
+See how the Reflection Pattern helped achieve state-of-the-art results on a major AI benchmark:
+
+**[Poetiq ARC-AGI-2 Analysis](../case_studies/poetiq-arc-agi-2/)** — How Poetiq broke the 50% barrier on ARC-AGI-2 using:
+- **Grounded Reflection**: Execution-based feedback instead of LLM self-critique
+- **Multi-Expert Voting**: 8 parallel agents with diversity-first consensus
+- **Cost Efficiency**: 54% accuracy at half the cost of previous SOTA
+
+This case study demonstrates the Reflection Pattern at production scale, validating the core concepts from this lesson.
+
+### Theoretical Foundations
+
+- **Scott Page, *The Model Thinker*** — The mathematical foundation for why diverse ensembles outperform single models
+- **[Andrew Ng on Reflection Pattern](https://www.deeplearning.ai/the-batch/agentic-design-patterns-part-2-reflection/)** — Agentic design patterns series
