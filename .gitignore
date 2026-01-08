@@ -9,6 +9,9 @@ venv/
 .env
 */.env
 
+# Node.js modules
+node_modules/
+
 # Python cache
 __pycache__/
 */__pycache__/
