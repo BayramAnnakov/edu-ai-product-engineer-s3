@@ -23,7 +23,7 @@ from .nodes import (
 from .nodes.triage import route_review
 
 
-def create_content_review_squad(checkpointer=None):
+def create_content_review_squad(checkpointer=None, interrupt_after_feature: bool = False):
     """Create and compile the Content Review Squad graph.
 
     TODO: Implement this function.
@@ -66,48 +66,48 @@ def create_content_review_squad(checkpointer=None):
     Returns:
         Compiled StateGraph
     """
-    # TODO: Initialize graph
     graph = StateGraph(ReviewState)
 
-    # TODO: Add nodes
-    # graph.add_node("triage", triage_node)
-    # graph.add_node("bug_reporter", bug_reporter_node)
-    # ... etc
+    # Add nodes
+    graph.add_node("triage", triage_node)
+    graph.add_node("bug_reporter", bug_reporter_node)
+    graph.add_node("feature_analyst", feature_analyst_node)
+    graph.add_node("praise_logger", praise_logger_node)
+    graph.add_node("summary", summary_node)
 
-    # TODO: Add entry edge
-    # graph.add_edge(START, "triage")
+    # Add entry edge
+    graph.add_edge(START, "triage")
 
-    # TODO: Add conditional edges from triage
-    # This is the key routing logic!
-    # graph.add_conditional_edges(
-    #     "triage",
-    #     route_review,  # The routing function
-    #     {
-    #         "bug_reporter": "bug_reporter",
-    #         "feature_analyst": "feature_analyst",
-    #         "praise_logger": "praise_logger",
-    #     }
-    # )
+    # Conditional fan-out from triage
+    graph.add_conditional_edges(
+        "triage",
+        route_review,
+        {
+            "bug_reporter": "bug_reporter",
+            "feature_analyst": "feature_analyst",
+            "praise_logger": "praise_logger",
+            "summary": "summary",
+        },
+    )
 
-    # TODO: Add fan-in edges to summary
-    # graph.add_edge("bug_reporter", "summary")
-    # graph.add_edge("feature_analyst", "summary")
-    # graph.add_edge("praise_logger", "summary")
+    # Fan-in to summary
+    graph.add_edge("bug_reporter", "summary")
+    graph.add_edge("feature_analyst", "summary")
+    graph.add_edge("praise_logger", "summary")
 
-    # TODO: Add exit edge
-    # graph.add_edge("summary", END)
+    # Exit
+    graph.add_edge("summary", END)
 
-    # TODO: Compile with checkpointer
     if checkpointer is None:
         checkpointer = MemorySaver()
 
-    # For human-in-the-loop, use interrupt_before or interrupt_after:
-    # return graph.compile(
-    #     checkpointer=checkpointer,
-    #     interrupt_before=["feature_analyst"],  # Pause before feature analysis
-    # )
+    if interrupt_after_feature:
+        return graph.compile(
+            checkpointer=checkpointer,
+            interrupt_after=["feature_analyst"],
+        )
 
-    raise NotImplementedError("Implement the graph wiring!")
+    return graph.compile(checkpointer=checkpointer)
 
 
 # Convenience instance (students should implement create_content_review_squad first)

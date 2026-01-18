@@ -39,3 +39,6 @@ Thumbs.db
 dist/
 build/
 *.egg-info/
+
+# Local artifacts
+20251221_EDU_AIProductEngineer_S3E3.pdf
