@@ -145,7 +145,7 @@ Submit:
 
 ## Resources
 
-- [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
-- [Conditional Edges](https://langchain-ai.github.io/langgraph/concepts/#conditional-edges)
-- [Human-in-the-Loop](https://langchain-ai.github.io/langgraph/how-tos/human-in-the-loop/)
+- [LangGraph Documentation](https://docs.langchain.com/oss/python/langgraph/overview)
+- [Conditional Edges](https://docs.langchain.com/oss/javascript/langgraph/graph-api#conditional-edges)
+- [Human-in-the-Loop](https://docs.langchain.com/oss/python/langchain/human-in-the-loop#human-in-the-loop)
 - Workshop 3 demo code in `lesson3/workspace/`
