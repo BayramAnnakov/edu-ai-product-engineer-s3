@@ -1,0 +1,6 @@
+review_id,category,action_taken,summary,severity,confidence,feature_name,priority,impact,effort,quote,value_rating,sentiment_score
+1,bug,Created GitHub issue #888,App crashes when exporting to PDF.,critical,1.0,,,,,,,
+4,bug,Created GitHub issue #839,Login button non-functional on Safari browser.,high,0.9,,,,,,,
+2,feature,Spec drafted (pending approval),,,0.9,Dark Mode,high,high,medium,,,
+5,feature,Spec drafted (pending approval),,,0.8,Notion Integration,medium,high,medium,,,
+3,praise,Logged testimonial,,,,,,,,Absolutely love this app! It's changed how I manage my projects.,high,1.0

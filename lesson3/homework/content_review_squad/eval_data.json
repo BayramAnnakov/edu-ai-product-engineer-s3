@@ -1,0 +1,96 @@
+{
+  "version": "1.0",
+  "cases": [
+    {
+      "id": "bug_crash_export",
+      "review": {
+        "id": 101,
+        "text": "App crashes every time I try to export to PDF. This is really frustrating!",
+        "rating": 1
+      },
+      "expected": {
+        "category": "bug",
+        "severity": ["critical", "high"]
+      }
+    },
+    {
+      "id": "bug_login_button",
+      "review": {
+        "id": 102,
+        "text": "The login button doesn't work on Safari browser. Please fix ASAP.",
+        "rating": 2
+      },
+      "expected": {
+        "category": "bug",
+        "severity": ["medium", "high"]
+      }
+    },
+    {
+      "id": "feature_dark_mode",
+      "review": {
+        "id": 103,
+        "text": "Would love to see a dark mode option. My eyes hurt using the app at night.",
+        "rating": 4
+      },
+      "expected": {
+        "category": "feature"
+      }
+    },
+    {
+      "id": "feature_notion_integration",
+      "review": {
+        "id": 104,
+        "text": "Can you add integration with Notion? That would be amazing for my workflow.",
+        "rating": 4
+      },
+      "expected": {
+        "category": "feature"
+      }
+    },
+    {
+      "id": "praise_love_app",
+      "review": {
+        "id": 105,
+        "text": "Absolutely love this app! It's changed how I manage my projects. Best purchase ever!",
+        "rating": 5
+      },
+      "expected": {
+        "category": "praise"
+      }
+    },
+    {
+      "id": "bug_ru_crash",
+      "review": {
+        "id": 106,
+        "text": "Приложение постоянно вылетает при открытии отчётов. Почините, пожалуйста.",
+        "rating": 1
+      },
+      "expected": {
+        "category": "bug",
+        "severity": ["critical", "high"]
+      }
+    },
+    {
+      "id": "feature_es_export",
+      "review": {
+        "id": 107,
+        "text": "Me gustaría poder exportar los datos a CSV para compartir con el equipo.",
+        "rating": 4
+      },
+      "expected": {
+        "category": "feature"
+      }
+    },
+    {
+      "id": "praise_fr",
+      "review": {
+        "id": 108,
+        "text": "Application fantastique, très intuitive. Merci pour ce produit!",
+        "rating": 5
+      },
+      "expected": {
+        "category": "praise"
+      }
+    }
+  ]
+}

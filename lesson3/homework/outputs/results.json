@@ -1,0 +1,565 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "text": "App crashes every time I try to export to PDF. This is really frustrating!",
+      "rating": 1
+    },
+    {
+      "id": 2,
+      "text": "Would love to see a dark mode option. My eyes hurt using the app at night.",
+      "rating": 4
+    },
+    {
+      "id": 3,
+      "text": "Absolutely love this app! It's changed how I manage my projects. Best purchase ever!",
+      "rating": 5
+    },
+    {
+      "id": 4,
+      "text": "The login button doesn't work on Safari browser. Please fix ASAP.",
+      "rating": 2
+    },
+    {
+      "id": 5,
+      "text": "Can you add integration with Notion? That would be amazing for my workflow.",
+      "rating": 4
+    }
+  ],
+  "triage_results": [
+    {
+      "id": 1,
+      "category": "bug",
+      "confidence": 0.95,
+      "language": "en",
+      "rationale": "The review clearly describes an app crash when attempting to use a specific feature, indicating a bug.",
+      "low_confidence": false
+    },
+    {
+      "id": 2,
+      "category": "feature",
+      "confidence": 0.95,
+      "language": "en",
+      "rationale": "The review expresses a desire for a new feature (dark mode) to improve user experience.",
+      "low_confidence": false
+    },
+    {
+      "id": 3,
+      "category": "praise",
+      "confidence": 0.95,
+      "language": "en",
+      "rationale": "The review expresses strong positive feelings about the app and its impact on project management.",
+      "low_confidence": false
+    },
+    {
+      "id": 4,
+      "category": "bug",
+      "confidence": 0.95,
+      "language": "en",
+      "rationale": "The review clearly describes a malfunctioning login button, indicating a bug in the application.",
+      "low_confidence": false
+    },
+    {
+      "id": 5,
+      "category": "feature",
+      "confidence": 0.95,
+      "language": "en",
+      "rationale": "The review requests a new feature, specifically integration with Notion.",
+      "low_confidence": false
+    }
+  ],
+  "bug_results": [
+    {
+      "id": 1,
+      "category": "bug",
+      "action_taken": "Created GitHub issue #888",
+      "details": {
+        "bug_report": {
+          "summary": "App crashes when exporting to PDF.",
+          "steps_to_reproduce": [
+            "Open the app.",
+            "Attempt to export a document to PDF."
+          ],
+          "expected_behavior": "The document should be successfully exported to PDF without crashing.",
+          "actual_behavior": "The app crashes every time the export to PDF is attempted.",
+          "severity": "critical",
+          "confidence": 1.0
+        },
+        "issue": {
+          "issue_number": 888,
+          "url": "https://github.com/example/repo/issues/888",
+          "status": "created"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "category": "bug",
+      "action_taken": "Created GitHub issue #839",
+      "details": {
+        "bug_report": {
+          "summary": "Login button non-functional on Safari browser.",
+          "steps_to_reproduce": [
+            "Open the application in Safari browser.",
+            "Attempt to click the login button."
+          ],
+          "expected_behavior": "The login button should be clickable and allow user to log in.",
+          "actual_behavior": "The login button does not respond to clicks.",
+          "severity": "high",
+          "confidence": 0.9
+        },
+        "issue": {
+          "issue_number": 839,
+          "url": "https://github.com/example/repo/issues/839",
+          "status": "created"
+        }
+      }
+    }
+  ],
+  "feature_results": [
+    {
+      "id": 2,
+      "category": "feature",
+      "action_taken": "Spec drafted (pending approval)",
+      "details": {
+        "feature_spec": {
+          "feature_name": "Dark Mode",
+          "problem": "Users experience eye strain when using the app at night due to bright screen light.",
+          "proposed_solution": "Implement a dark mode option that users can toggle on or off, which changes the app's color scheme to darker tones.",
+          "user_benefit": "Reduced eye strain and improved user comfort during nighttime use, leading to increased user satisfaction and longer app usage sessions.",
+          "complexity": "medium",
+          "priority": "high",
+          "impact": "high",
+          "effort": "medium",
+          "success_metrics": [
+            "Increased user engagement during nighttime hours",
+            "Positive user feedback on comfort",
+            "Increased app usage duration"
+          ],
+          "confidence": 0.9,
+          "pending_approval": true,
+          "approved": null,
+          "rejection_reason": null
+        },
+        "review": {
+          "id": 2,
+          "text": "Would love to see a dark mode option. My eyes hurt using the app at night.",
+          "rating": 4
+        }
+      }
+    },
+    {
+      "id": 5,
+      "category": "feature",
+      "action_taken": "Spec drafted (pending approval)",
+      "details": {
+        "feature_spec": {
+          "feature_name": "Notion Integration",
+          "problem": "Users need to manually transfer data between the app and Notion, which disrupts workflow efficiency.",
+          "proposed_solution": "Develop an integration that allows users to sync data between the app and Notion seamlessly.",
+          "user_benefit": "Improved workflow efficiency by reducing manual data transfer, saving time, and minimizing errors.",
+          "complexity": "medium",
+          "priority": "medium",
+          "impact": "high",
+          "effort": "medium",
+          "success_metrics": [
+            "Number of users utilizing the integration",
+            "Reduction in time spent on data transfer",
+            "User satisfaction ratings"
+          ],
+          "confidence": 0.8,
+          "pending_approval": true,
+          "approved": null,
+          "rejection_reason": null
+        },
+        "review": {
+          "id": 5,
+          "text": "Can you add integration with Notion? That would be amazing for my workflow.",
+          "rating": 4
+        }
+      }
+    }
+  ],
+  "praise_results": [
+    {
+      "id": 3,
+      "category": "praise",
+      "action_taken": "Logged testimonial",
+      "details": {
+        "testimonial": {
+          "quote": "Absolutely love this app! It's changed how I manage my projects.",
+          "sentiment_summary": "The user expresses strong enthusiasm and satisfaction with the app's impact on project management.",
+          "value_rating": "high",
+          "suggested_usage": "landing page",
+          "sentiment_score": 1.0
+        }
+      }
+    }
+  ],
+  "pending_features": [
+    {
+      "id": 2,
+      "category": "feature",
+      "action_taken": "Spec drafted (pending approval)",
+      "details": {
+        "feature_spec": {
+          "feature_name": "Dark Mode",
+          "problem": "Users experience eye strain when using the app at night due to bright screen light.",
+          "proposed_solution": "Implement a dark mode option that users can toggle on or off, which changes the app's color scheme to darker tones.",
+          "user_benefit": "Reduced eye strain and improved user comfort during nighttime use, leading to increased user satisfaction and longer app usage sessions.",
+          "complexity": "medium",
+          "priority": "high",
+          "impact": "high",
+          "effort": "medium",
+          "success_metrics": [
+            "Increased user engagement during nighttime hours",
+            "Positive user feedback on comfort",
+            "Increased app usage duration"
+          ],
+          "confidence": 0.9,
+          "pending_approval": true,
+          "approved": null,
+          "rejection_reason": null
+        },
+        "review": {
+          "id": 2,
+          "text": "Would love to see a dark mode option. My eyes hurt using the app at night.",
+          "rating": 4
+        }
+      }
+    },
+    {
+      "id": 5,
+      "category": "feature",
+      "action_taken": "Spec drafted (pending approval)",
+      "details": {
+        "feature_spec": {
+          "feature_name": "Notion Integration",
+          "problem": "Users need to manually transfer data between the app and Notion, which disrupts workflow efficiency.",
+          "proposed_solution": "Develop an integration that allows users to sync data between the app and Notion seamlessly.",
+          "user_benefit": "Improved workflow efficiency by reducing manual data transfer, saving time, and minimizing errors.",
+          "complexity": "medium",
+          "priority": "medium",
+          "impact": "high",
+          "effort": "medium",
+          "success_metrics": [
+            "Number of users utilizing the integration",
+            "Reduction in time spent on data transfer",
+            "User satisfaction ratings"
+          ],
+          "confidence": 0.8,
+          "pending_approval": true,
+          "approved": null,
+          "rejection_reason": null
+        },
+        "review": {
+          "id": 5,
+          "text": "Can you add integration with Notion? That would be amazing for my workflow.",
+          "rating": 4
+        }
+      }
+    }
+  ],
+  "approved_features": [],
+  "rejected_features": [],
+  "statistics": {
+    "total_reviews": 5,
+    "bugs_count": 2,
+    "features_count": 2,
+    "praise_count": 1,
+    "pending_feature_count": 2,
+    "avg_triage_confidence": 0.95,
+    "low_confidence_count": 0,
+    "severity_distribution": {
+      "critical": 1,
+      "high": 1
+    },
+    "feature_priority_distribution": {
+      "high": 1,
+      "medium": 1
+    },
+    "approval_rate": 0.0,
+    "review_queue_size": 2,
+    "triage_review_count": 0,
+    "feature_approval_pending": 2,
+    "top_clusters": [
+      {
+        "id": "bug-1",
+        "category": "bug",
+        "label": "Crashes Every",
+        "count": 1,
+        "priority_score": 1.693
+      },
+      {
+        "id": "praise-1",
+        "category": "praise",
+        "label": "Absolutely It'S",
+        "count": 1,
+        "priority_score": 1.693
+      },
+      {
+        "id": "bug-2",
+        "category": "bug",
+        "label": "Login Button",
+        "count": 1,
+        "priority_score": 1.355
+      },
+      {
+        "id": "feature-1",
+        "category": "feature",
+        "label": "See Dark",
+        "count": 1,
+        "priority_score": 1.334
+      },
+      {
+        "id": "feature-2",
+        "category": "feature",
+        "label": "Integration Notion",
+        "count": 1,
+        "priority_score": 1.07
+      }
+    ]
+  },
+  "summary_report": "### Executive Summary of Review Processing Results\n\n**Overview:**\nThe review processing for the latest batch of 5 reviews has yielded insights into user feedback, highlighting areas for improvement and potential feature enhancements.\n\n**Statistics:**\n- **Total Reviews Processed:** 5\n- **Bugs Identified:** 2\n- **Feature Requests:** 2\n- **Praise Received:** 1\n- **Pending Feature Approvals:** 2\n- **Average Triage Confidence:** 0.95\n- **Severity Distribution:**\n  - Critical: 1\n  - High: 1\n- **Feature Priority Distribution:**\n  - High: 1\n  - Medium: 1\n\n**Key Actions Taken:**\n- **Bugs:**\n  - Created GitHub issue #888 for the bug labeled \"Crashes Every.\"\n  - Created GitHub issue #839 for the bug related to the \"Login Button.\"\n  \n- **Features:**\n  - Drafted specifications for two features pending approval:\n    - **Dark Mode:** Aimed at reducing eye strain for nighttime users.\n    - **Notion Integration:** To enhance workflow efficiency by automating data transfer.\n\n- **Praise:**\n  - Logged a positive testimonial from a user.\n\n**Pending Approvals:**\n- **Feature Approvals Pending:**\n  - **Dark Mode:** High priority, medium complexity, with significant user benefits.\n  - **Notion Integration:** Medium priority, medium complexity, aimed at improving user workflow.\n\n**Review Queue Status:**\n- **Pending Total Reviews:** 2\n- **Triage Review Count:** 0\n- **Feature Approval Pending:** 2\n\nThis summary highlights the critical areas requiring attention and the actions taken to address user feedback. The pending feature approvals are crucial for enhancing user experience and should be prioritized for review.",
+  "processing_errors": [],
+  "topic_clusters": [
+    {
+      "id": "bug-1",
+      "category": "bug",
+      "label": "Crashes Every",
+      "count": 1,
+      "item_ids": [
+        1
+      ],
+      "keywords": [
+        "crashes",
+        "every",
+        "time",
+        "try",
+        "export",
+        "pdf"
+      ],
+      "sample_texts": [
+        "App crashes every time I try to export to PDF. This is really frustrating!"
+      ],
+      "priority_score": 1.693
+    },
+    {
+      "id": "praise-1",
+      "category": "praise",
+      "label": "Absolutely It'S",
+      "count": 1,
+      "item_ids": [
+        3
+      ],
+      "keywords": [
+        "absolutely",
+        "it's",
+        "changed",
+        "how",
+        "manage",
+        "projects"
+      ],
+      "sample_texts": [
+        "Absolutely love this app! It's changed how I manage my projects. Best purchase ever!"
+      ],
+      "priority_score": 1.693
+    },
+    {
+      "id": "bug-2",
+      "category": "bug",
+      "label": "Login Button",
+      "count": 1,
+      "item_ids": [
+        4
+      ],
+      "keywords": [
+        "login",
+        "button",
+        "doesn't",
+        "work",
+        "safari",
+        "browser"
+      ],
+      "sample_texts": [
+        "The login button doesn't work on Safari browser. Please fix ASAP."
+      ],
+      "priority_score": 1.355
+    },
+    {
+      "id": "feature-1",
+      "category": "feature",
+      "label": "See Dark",
+      "count": 1,
+      "item_ids": [
+        2
+      ],
+      "keywords": [
+        "see",
+        "dark",
+        "mode",
+        "option",
+        "eyes",
+        "hurt"
+      ],
+      "sample_texts": [
+        "Would love to see a dark mode option. My eyes hurt using the app at night."
+      ],
+      "priority_score": 1.334
+    },
+    {
+      "id": "feature-2",
+      "category": "feature",
+      "label": "Integration Notion",
+      "count": 1,
+      "item_ids": [
+        5
+      ],
+      "keywords": [
+        "integration",
+        "notion",
+        "amazing",
+        "workflow"
+      ],
+      "sample_texts": [
+        "Can you add integration with Notion? That would be amazing for my workflow."
+      ],
+      "priority_score": 1.07
+    }
+  ],
+  "review_queue": [
+    {
+      "type": "feature_approval",
+      "review_id": 2,
+      "status": "pending",
+      "category": "feature",
+      "feature_name": "Dark Mode",
+      "priority": "high",
+      "impact": "high",
+      "effort": "medium",
+      "confidence": 0.9,
+      "rationale": "Users experience eye strain when using the app at night due to bright screen light."
+    },
+    {
+      "type": "feature_approval",
+      "review_id": 5,
+      "status": "pending",
+      "category": "feature",
+      "feature_name": "Notion Integration",
+      "priority": "medium",
+      "impact": "high",
+      "effort": "medium",
+      "confidence": 0.8,
+      "rationale": "Users need to manually transfer data between the app and Notion, which disrupts workflow efficiency."
+    }
+  ],
+  "audit_log": [
+    {
+      "timestamp": "2026-01-18T11:18:56.621333+00:00",
+      "event": "triage_decision",
+      "review_id": 1,
+      "details": {
+        "category": "bug",
+        "confidence": 0.95,
+        "low_confidence": false,
+        "language": "en"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:18:58.082424+00:00",
+      "event": "triage_decision",
+      "review_id": 2,
+      "details": {
+        "category": "feature",
+        "confidence": 0.95,
+        "low_confidence": false,
+        "language": "en"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:18:59.636526+00:00",
+      "event": "triage_decision",
+      "review_id": 3,
+      "details": {
+        "category": "praise",
+        "confidence": 0.95,
+        "low_confidence": false,
+        "language": "en"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:19:00.877169+00:00",
+      "event": "triage_decision",
+      "review_id": 4,
+      "details": {
+        "category": "bug",
+        "confidence": 0.95,
+        "low_confidence": false,
+        "language": "en"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:19:02.138289+00:00",
+      "event": "triage_decision",
+      "review_id": 5,
+      "details": {
+        "category": "feature",
+        "confidence": 0.95,
+        "low_confidence": false,
+        "language": "en"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:19:04.645060+00:00",
+      "event": "bug_report_created",
+      "review_id": 1,
+      "details": {
+        "severity": "critical",
+        "issue_number": 888,
+        "issue_url": "https://github.com/example/repo/issues/888"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:19:06.769839+00:00",
+      "event": "bug_report_created",
+      "review_id": 4,
+      "details": {
+        "severity": "high",
+        "issue_number": 839,
+        "issue_url": "https://github.com/example/repo/issues/839"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:19:04.759111+00:00",
+      "event": "feature_spec_drafted",
+      "review_id": 2,
+      "details": {
+        "feature_name": "Dark Mode",
+        "priority": "high",
+        "impact": "high",
+        "effort": "medium"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:19:06.446549+00:00",
+      "event": "feature_spec_drafted",
+      "review_id": 5,
+      "details": {
+        "feature_name": "Notion Integration",
+        "priority": "medium",
+        "impact": "high",
+        "effort": "medium"
+      }
+    },
+    {
+      "timestamp": "2026-01-18T11:19:04.921738+00:00",
+      "event": "praise_logged",
+      "review_id": 3,
+      "details": {
+        "value_rating": "high",
+        "sentiment_score": 1.0,
+        "suggested_usage": "landing page"
+      }
+    }
+  ]
+}

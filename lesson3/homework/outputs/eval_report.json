@@ -1,0 +1,108 @@
+{
+  "metrics": {
+    "total_cases": 8,
+    "category_accuracy": 1.0,
+    "per_category_accuracy": {
+      "bug": 1.0,
+      "feature": 1.0,
+      "praise": 1.0
+    },
+    "missing_triage": 0,
+    "bug_severity_match_rate": 1.0,
+    "feature_spec_completeness": 1.0,
+    "praise_completeness": 1.0,
+    "confusion_matrix": {
+      "bug": {
+        "bug": 3
+      },
+      "feature": {
+        "feature": 3
+      },
+      "praise": {
+        "praise": 2
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "bug_crash_export",
+      "review_id": 101,
+      "expected_category": "bug",
+      "predicted_category": "bug",
+      "category_match": true,
+      "severity_match": true,
+      "feature_spec_complete": null,
+      "praise_complete": null
+    },
+    {
+      "id": "bug_login_button",
+      "review_id": 102,
+      "expected_category": "bug",
+      "predicted_category": "bug",
+      "category_match": true,
+      "severity_match": true,
+      "feature_spec_complete": null,
+      "praise_complete": null
+    },
+    {
+      "id": "feature_dark_mode",
+      "review_id": 103,
+      "expected_category": "feature",
+      "predicted_category": "feature",
+      "category_match": true,
+      "severity_match": null,
+      "feature_spec_complete": true,
+      "praise_complete": null
+    },
+    {
+      "id": "feature_notion_integration",
+      "review_id": 104,
+      "expected_category": "feature",
+      "predicted_category": "feature",
+      "category_match": true,
+      "severity_match": null,
+      "feature_spec_complete": true,
+      "praise_complete": null
+    },
+    {
+      "id": "praise_love_app",
+      "review_id": 105,
+      "expected_category": "praise",
+      "predicted_category": "praise",
+      "category_match": true,
+      "severity_match": null,
+      "feature_spec_complete": null,
+      "praise_complete": true
+    },
+    {
+      "id": "bug_ru_crash",
+      "review_id": 106,
+      "expected_category": "bug",
+      "predicted_category": "bug",
+      "category_match": true,
+      "severity_match": true,
+      "feature_spec_complete": null,
+      "praise_complete": null
+    },
+    {
+      "id": "feature_es_export",
+      "review_id": 107,
+      "expected_category": "feature",
+      "predicted_category": "feature",
+      "category_match": true,
+      "severity_match": null,
+      "feature_spec_complete": true,
+      "praise_complete": null
+    },
+    {
+      "id": "praise_fr",
+      "review_id": 108,
+      "expected_category": "praise",
+      "predicted_category": "praise",
+      "category_match": true,
+      "severity_match": null,
+      "feature_spec_complete": null,
+      "praise_complete": true
+    }
+  ]
+}
